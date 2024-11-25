@@ -2,12 +2,10 @@ import frappe  # type: ignore
 from frappe import _
 
 @frappe.whitelist()
-def validate(doc, method):
-    frappe.msgprint(doc.name)
+def on_submit(doc, method):
     for item in doc.items:
         item_code = item.item_code
-        selling_price = rate = item.rate + item.applicable_charges * item.custom_selling_price / 100
-        rate = item.rate + item.applicable_charges * selling_price
+        rate = (item.rate + item.applicable_charges) * (1 + item.custom_selling_price / 100)
 
         # Ensure required fields are provided
         if not item_code or not rate:
@@ -44,3 +42,8 @@ def validate(doc, method):
                 .format(item_code, rate),
                 alert=True
             )
+    frappe.msgprint(
+        msg="Item Price Updated Successfully!",
+        title="Success",
+        indicator="green"  # Options: green, red, orange
+    )

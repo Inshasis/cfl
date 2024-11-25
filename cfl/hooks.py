@@ -139,7 +139,7 @@ app_license = "mit"
 
 doc_events = {
     "Landed Cost Voucher": {
-        "validate": "cfl.cfl.doctype.landed_cost.validate"
+        "on_submit": "cfl.cfl.doctype.landed_cost.on_submit"
     }
 }
 
